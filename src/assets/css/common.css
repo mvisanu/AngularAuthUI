@@ -50,7 +50,7 @@ a:hover {
 }
 
 .icon-left {
-  
+
   left: 0;
   top: 20px;
 }
@@ -105,4 +105,8 @@ img {
   left: 33%;
   background-color: #fff;
   padding: 0 8px;
+}
+
+.error {
+  border-color: red !important;
 }
