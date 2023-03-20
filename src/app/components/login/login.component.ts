@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import ValidateForm from 'src/app/helpers/validateform';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -16,7 +17,10 @@ export class LoginComponent implements OnInit {
   eyeIcon: string = "fa-eye-slash";
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group ({
@@ -39,12 +43,15 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.loginForm.value)
       .subscribe({
         next:(res) => {
-          alert(res.message);
+          console.log(res);
+          //alert(res.message);
+          //this.toast.success({detail: "SUCCESS", summary:res.message, duration: 5000});
           this.loginForm.reset();
           this.router.navigate(['dashboard']);
         },
         error:(err) => {
-          alert(err?.error.message);
+          console.log(err?.error.message);
+          //this.toast.error({detail: "ERROR", summary:"Something went wrong", duration: 5000});
         }
 
       });
