@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next:(res) => {
           console.log(res);
+          this.authService.storeToken(res.token);
           //alert(res.message);
           //this.toast.success({detail: "SUCCESS", summary:res.message, duration: 5000});
           this.loginForm.reset();

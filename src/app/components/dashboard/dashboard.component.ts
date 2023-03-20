@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  public users: any = [];
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.getUsers('')
+    .subscribe( res => {
+      this.users = res;
+    })
+  }
+
+  logout() {
+    this.authService.signOut();
   }
 
 }
