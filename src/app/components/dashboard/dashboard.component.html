@@ -3,7 +3,7 @@
 <nav class="navbar navbar-light bg-light">
   <a class="navbar-brand">Angular Auth</a>
   <div>
-    <h4>Hello Visanu</h4>
+    <h4>Hello {{fullName}}</h4>
   </div>
-  <button (click)="logout()" class="btn btn-danger">Log out</button>
+  <button *ngIf="role === 'Admin'" (click)="logout()" class="btn btn-danger">Log out</button>
 </nav>

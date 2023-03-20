@@ -51,4 +51,16 @@ export class AuthService {
     return jwtHelper.decodeToken(token);
 
   }
+
+  getfullNameFromToken() {
+    if (this.userPayload) {
+      return this.userPayload.name;
+    }
+  }
+
+  getRoleFromToken() {
+    if(this.userPayload) {
+      return this.userPayload.role;
+    }
+  }
 }

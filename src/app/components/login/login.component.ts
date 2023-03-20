@@ -1,9 +1,11 @@
+import { UserStoreService } from './../../services/user-store.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import ValidateForm from 'src/app/helpers/validateform';
 import { AuthService } from 'src/app/services/auth.service';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-login',
@@ -15,11 +17,13 @@ export class LoginComponent implements OnInit {
   type: string = "password";
   isText: boolean = false;
   eyeIcon: string = "fa-eye-slash";
-  loginForm!: FormGroup;
+  loginForm!: UntypedFormGroup;
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: UntypedFormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toast: NgToastService,
+    private userStore: UserStoreService
     ) { }
 
   ngOnInit(): void {
@@ -46,13 +50,16 @@ export class LoginComponent implements OnInit {
           console.log(res);
           this.authService.storeToken(res.token);
           //alert(res.message);
-          //this.toast.success({detail: "SUCCESS", summary:res.message, duration: 5000});
+          const tokenPayload = this.authService.decodeToken();
+          this.userStore.setFullNameForStore(tokenPayload.name);
+          this.userStore.setRoleForStore(tokenPayload.role);
+          this.toast.success({detail: "SUCCESS", summary:res.message, duration: 5000});
           this.loginForm.reset();
           this.router.navigate(['dashboard']);
         },
         error:(err) => {
           console.log(err?.error.message);
-          //this.toast.error({detail: "ERROR", summary:"Something went wrong", duration: 5000});
+          this.toast.error({detail: "ERROR", summary:"Something went wrong", duration: 5000});
         }
 
       });

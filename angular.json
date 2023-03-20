@@ -107,5 +107,7 @@
       }
     }
   },
-  "defaultProject": "AngularAuthUI"
+  "cli": {
+    "analytics": "73ec46c9-cf7e-4810-a1a5-a182f911ac2b"
+  }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import ValidateForm from 'src/app/helpers/validateform';
 import { AuthService } from 'src/app/services/auth.service';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-signup',
@@ -15,11 +16,12 @@ export class SignupComponent implements OnInit {
   type: string = "password";
   isText: boolean = false;
   eyeIcon: string = "fa-eye-slash";
-  signUpForm!: FormGroup;
+  signUpForm!: UntypedFormGroup;
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: UntypedFormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toast: NgToastService
     ) { }
 
   ngOnInit(): void {
@@ -46,13 +48,13 @@ export class SignupComponent implements OnInit {
       .subscribe({
         next:(res) => {
           //alert(res.message);
-          //this.toast.success({detail: "SUCCESS", summary:res.message, duration: 5000});
+          this.toast.success({detail: "SUCCESS", summary:res.message, duration: 5000});
           this.signUpForm.reset();
           this.router.navigate(['login']);
         },
         error:(err) => {
           console.log(err?.error.message);
-          //this.toast.error({detail: "ERROR", summary:"Something went wrong", duration: 5000});
+          this.toast.error({detail: "ERROR", summary:"Something went wrong", duration: 5000});
         }
       });
     } else {
